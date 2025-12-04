@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Clean Code",
+    "price": 29.99,
+    "size": "m",
+    "id": "1"
+  },
+  {
+    "name": "You Don't Know JS",
+    "price": 14.5,
+    "size": "s",
+    "id": "2"
+  },
+  {
+    "name": "The Pragmatic Programmer",
+    "price": 34.0,
+    "size": "l",
+    "id": "3"
+  },
+  {
+    "name": "Designing Data-Intensive Apps",
+    "price": 41.75,
+    "size": "l",
+    "id": "4"
+  },
+  {
+    "name": "Refactoring",
+    "price": 27.0,
+    "size": "m",
+    "id": "5"
+  },
+  {
+    "name": "Learning JS Patterns",
+    "price": 18.25,
+    "size": "s",
+    "id": "6"
+  }
+]
