@@ -26,13 +26,11 @@ function getMime(filePath) {
 }
 
 async function serveStatic(req, res, pathname) {
-  // Normalize path
   let requestedPath = pathname;
   if (requestedPath === '/') {
     requestedPath = '/index.html';
   }
 
-  // Prevent directory traversal
   const safePath = path.normalize(path.join(PUBLIC_DIR, requestedPath));
   if (!safePath.startsWith(PUBLIC_DIR)) {
     res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
@@ -43,7 +41,6 @@ async function serveStatic(req, res, pathname) {
   try {
     const stat = await fs.stat(safePath);
     if (stat.isDirectory()) {
-      // Serve index.html inside directory if exists
       const indexPath = path.join(safePath, 'index.html');
       const indexStat = await fs.stat(indexPath).catch(() => null);
       if (indexStat && indexStat.isFile()) {
@@ -62,7 +59,6 @@ async function serveStatic(req, res, pathname) {
       throw new Error('Not a file');
     }
   } catch (err) {
-    // If the request was for a .html file, return 404 page
     if (requestedPath.endsWith('.html')) {
       const notFoundPath = path.join(PUBLIC_DIR, '404.html');
       try {
@@ -77,14 +73,13 @@ async function serveStatic(req, res, pathname) {
       }
     }
 
-    // For non-html requests, return 404 plain
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('Not Found');
   }
 }
 
 const server = http.createServer((req, res) => {
-  // Simple CORS and common headers for API consumers
+  // CORS & common headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
@@ -101,7 +96,6 @@ const server = http.createServer((req, res) => {
   if (pathname.startsWith('/api/')) {
     api.handle(req, res);
   } else {
-    // static file serving for everything else
     serveStatic(req, res, pathname);
   }
 });
